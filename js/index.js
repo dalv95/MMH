@@ -1,13 +1,3 @@
-$(function () {
-    $("#check_date").datepicker();
-    $("#check_date").datepicker();
-});
-
-$(function () {
-    $("#result_date").datepicker();
-    $("#result_date").datepicker();
-});
-
 $(document).ready(function () {
     $("#start").click(function () {
         var car1_max = 1000;
@@ -57,5 +47,10 @@ $(document).ready(function () {
 
 
         document.getElementById("car1").innerHTML = result;
+        document.getElementById("car2").innerHTML = result;
+        document.getElementById("car3").innerHTML = result;
+        document.getElementById("car4").innerHTML = result;
+        document.getElementById("car5").innerHTML = result;
+
     });
 });
