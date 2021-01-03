@@ -87,8 +87,15 @@ function initMap() {
         }
     })
 
-    
     console.log(odleglosci);
+
+    odleglosci.forEach(function(item, i , odleglosci) {
+      for (var a=0; a<item.length; a++){
+        var smallest = Math.min(...item.filter(Boolean));
+        console.log(smallest);
+      }
+    })
+    
     //console.log(j)
     //console.log(miasta);
 }
