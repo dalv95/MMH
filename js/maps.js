@@ -92,7 +92,7 @@ function initMap() {
     odleglosci.forEach(function(item, i , odleglosci) {
       for (var a=0; a<item.length; a++)
         if (item[a] < 0){
-          item[a] = 0
+          item[a] = item[a] * -1;
         }
     })
 
