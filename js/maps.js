@@ -70,24 +70,27 @@ function initMap() {
     var mk30 = new google.maps.Marker({position: zakopane, map: map});
     var mk31 = new google.maps.Marker({position: zamosc, map: map});
 
+    const zeros = (m, n) => [...Array(m)].map(e => Array(n).fill(0));
     var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
-    var odleglosci=[[]];
+    var odleglosci=zeros(miasta.length, miasta.length);
 	  for(var i=0; i< miasta.length;i++){
       odleglosci.push();
       for(var j=0; j< miasta.length;j++){
-        odleglosci[i].push(miasta[i].lat-miasta[j].lat+miasta[i].lng-miasta[j].lng);
+        odleglosci[i][j]=(miasta[i].lat-miasta[j].lat+miasta[i].lng-miasta[j].lng);
       }
     }
+
+    odleglosci.forEach(function(item, i , odleglosci) {
+      for (var a=0; a<item.length; a++)
+        if (item[a] < 0){
+          item[a] = 0
+        }
+    })
+
+    
     console.log(odleglosci);
-    console.log(miasta);
-
-    var x = document.getElementById("place").value;
-
-    
-    
-      if (x === 'krakow') {
-      var marker = new google.maps.Marker({ position: rydygiera, map: map });
-    }
+    //console.log(j)
+    //console.log(miasta);
 }
 
 
