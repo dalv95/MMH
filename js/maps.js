@@ -76,17 +76,9 @@ function initMap() {
 	  for(var i=0; i< miasta.length;i++){
       odleglosci.push();
       for(var j=0; j< miasta.length;j++){
-        var R = 6371.0710; // Radius of the Earth in km
-        var rlat1 = miasta[j].lat * (Math.PI/180); // Convert degrees to radians
-        var rlat2 = miasta[i].lat * (Math.PI/180); // Convert degrees to radians
-        var difflat = rlat1-rlat2; // Radian difference (latitudes)
-        var difflon = (miasta[j].lng-miasta[i].lng * (Math.PI/180)); // Radian difference (longitudes)
-
-        odleglosci[i][j] = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
-        //odleglosci[i][j]=(miasta[i].lat-miasta[j].lat+miasta[i].lng-miasta[j].lng);
+        odleglosci[i][j]=((miasta[i].lat-miasta[j].lat+miasta[i].lng-miasta[j].lng) * 81);
       }
     }
-    console.log(odleglosci);
  
 
     odleglosci.forEach(function(item, i , odleglosci) {
@@ -94,21 +86,52 @@ function initMap() {
         if (item[a] < 0){
           item[a] = item[a] * -1;
         }
+        
     })
 
     console.log(odleglosci);
 
+
+    var odleglosci2 = new Array();
+    var smallest = '';
+    var indexsmallest = 0;
+    var i = 0;
+    var g = 0
+    odleglosci.forEach(function(item, indexsmallest, odleglosci) {
+      for (var i=0; i<odleglosci.length; i++){
+        smallest = Math.min(...item.filter(Boolean));
+        indexsmallest = item.indexOf(smallest);
+        
+        
+      }
+      g = g+1;
+      console.log(indexsmallest)
+      console.log(smallest);
+      odleglosci[g-1][indexsmallest] = 100000;
+      odleglosci[indexsmallest][g-1] = 100000;
+    })
+   
+    console.log(odleglosci);
+    /*var route = new Array();
+    var routeindex = new Array();
     odleglosci.forEach(function(item, i , odleglosci) {
       for (var a=0; a<item.length; a++){
         var smallest = Math.min(...item.filter(Boolean));
-        console.log(smallest);
+        var indexsmallest = item.indexOf(smallest);
+        
       }
+      console.log(indexsmallest)
+      routeindex.push(indexsmallest)
+      console.log(smallest);
+      route.push(smallest);
     })
-    
+    console.log(routeindex);
+    console.log(route);
+    console.log(odleglosci);*/
     //console.log(j)
     //console.log(miasta);
 }
 
 
-  
+
 
