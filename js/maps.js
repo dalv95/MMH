@@ -1,6 +1,9 @@
 // Initialize and add the map
 function initMap() {
 
+  var ltlng = [];
+  var path = new google.maps.MVCArray();
+  var service = new google.maps.DirectionsService();
   var center  = {lat: 52.222384, lng: 19.3010533};
 
   var map = new google.maps.Map(
@@ -70,6 +73,7 @@ function initMap() {
     var mk30 = new google.maps.Marker({position: zakopane, map: map});
     var mk31 = new google.maps.Marker({position: zamosc, map: map});
 
+
     const zeros = (m, n) => [...Array(m)].map(e => Array(n).fill(0));
     var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
     var odleglosci3=zeros(miasta.length, miasta.length);
@@ -79,7 +83,7 @@ function initMap() {
         odleglosci3[i][j]=(Math.sqrt((Math.abs(miasta[i].lat-miasta[j].lat)*Math.abs(miasta[i].lat-miasta[j].lat)+Math.abs(miasta[i].lng-miasta[j].lng)*Math.abs(miasta[i].lng-miasta[j].lng))) * 81);
       }
     }
-
+    
     
     var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
     var odleglosci=zeros(miasta.length, miasta.length);
@@ -262,6 +266,15 @@ function initMap() {
     console.log(odleglosci);*/
     //console.log(j)
     //console.log(miasta);
+
+
+    var flightPath = new google.maps.Polyline({
+      path: ltlng,
+      geodesic: true,
+      strokeColor: '#4986E7',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
 }
 
 
