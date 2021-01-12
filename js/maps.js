@@ -72,11 +72,21 @@ function initMap() {
 
     const zeros = (m, n) => [...Array(m)].map(e => Array(n).fill(0));
     var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
+    var odleglosci3=zeros(miasta.length, miasta.length);
+	  for(var i=0; i< miasta.length;i++){
+      odleglosci3.push();
+      for(var j=0; j< miasta.length;j++){
+        odleglosci3[i][j]=(Math.sqrt((Math.abs(miasta[i].lat-miasta[j].lat)*Math.abs(miasta[i].lat-miasta[j].lat)+Math.abs(miasta[i].lng-miasta[j].lng)*Math.abs(miasta[i].lng-miasta[j].lng))) * 81);
+      }
+    }
+
+    
+    var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
     var odleglosci=zeros(miasta.length, miasta.length);
 	  for(var i=0; i< miasta.length;i++){
       odleglosci.push();
       for(var j=0; j< miasta.length;j++){
-        odleglosci[i][j]=((miasta[i].lat-miasta[j].lat+miasta[i].lng-miasta[j].lng) * 81);
+        odleglosci[i][j]=(Math.sqrt((Math.abs(miasta[i].lat-miasta[j].lat)*Math.abs(miasta[i].lat-miasta[j].lat)+Math.abs(miasta[i].lng-miasta[j].lng)*Math.abs(miasta[i].lng-miasta[j].lng))) * 81);
       }
     }
  
@@ -89,29 +99,151 @@ function initMap() {
         
     })
 
+    console.log(odleglosci3);
     console.log(odleglosci);
-
 
     var odleglosci2 = new Array();
     var smallest = '';
     var indexsmallest = 0;
+    var indexsmallest1 = 0;
+    var indexsmallest2 = 0;
+    var indexsmallest3 = 0;
+    var indexsmallest4 = 0;
+    var indexsmallest5 = 0;
     var i = 0;
-    var g = 0
-    odleglosci.forEach(function(item, indexsmallest, odleglosci) {
+    var g = 0;
+    var needs = [0, 500, 50, 400, 200, 100, 40, 200, 300, 30, 60, 50, 60, 160, 100, 120, 300, 100, 200, 100, 60, 200, 150, 60, 50, 70, 200, 90, 40, 200, 300];
+    var auto1 = 0;
+    var auto2 = 0;
+    var auto3 = 0;
+    var auto4 = 0;
+    var auto5 = 0;
+    var route1 = new Array();
+    var route2 = new Array();
+    var route3 = new Array();
+    var route4 = new Array();
+    var route5 = new Array();
+    for (var a=0; a < odleglosci.length; a++){
+      odleglosci[a][indexsmallest] = 100000;
+      
+    }
+    odleglosci.forEach(function(item, i, odleglosci) {
+      var idex = odleglosci.indexOf(item);
+      /*item=odleglosci[indexsmallest];
       for (var i=0; i<odleglosci.length; i++){
         smallest = Math.min(...item.filter(Boolean));
         indexsmallest = item.indexOf(smallest);
-        
-        
-      }
+      }*/
       g = g+1;
+      
+      if (idex %5 == 0){
+        item=odleglosci[indexsmallest1];
+        for (var i=0; i<odleglosci.length; i++){
+          smallest = Math.min(...item.filter(Boolean));
+          indexsmallest1 = item.indexOf(smallest);
+        }
+        auto1 += needs[indexsmallest1];
+        route1.push(indexsmallest1);
+        for (var a=0; a < odleglosci.length; a++){
+          odleglosci[a][indexsmallest1] = 100000;
+          
+        }
+        odleglosci[indexsmallest1][g-1] = 100000;
+      }
+      if (idex %5 == 1){
+        item=odleglosci[indexsmallest2];
+        for (var i=0; i<odleglosci.length; i++){
+          smallest = Math.min(...item.filter(Boolean));
+          indexsmallest2 = item.indexOf(smallest);
+        }
+        auto2 += needs[indexsmallest2];
+        route2.push(indexsmallest2);
+        for (var a=0; a < odleglosci.length; a++){
+          odleglosci[a][indexsmallest2] = 100000;
+          
+        }
+        odleglosci[indexsmallest2][g-1] = 100000;
+      }
+      if (idex %5 == 2){
+        item=odleglosci[indexsmallest3];
+        for (var i=0; i<odleglosci.length; i++){
+          smallest = Math.min(...item.filter(Boolean));
+          indexsmallest3 = item.indexOf(smallest);
+        }
+        auto3 += needs[indexsmallest3];
+        if (auto3 > 1000){
+          auto3 -= needs[indexsmallest3];
+          idex++;
+        } else {
+          route3.push(indexsmallest3);
+          for (var a=0; a < odleglosci.length; a++){
+            odleglosci[a][indexsmallest3] = 100000;
+            
+          }
+          odleglosci[indexsmallest3][g-1] = 100000;
+        }
+      }
+      if (idex %5 == 3){
+        item=odleglosci[indexsmallest4];
+        for (var i=0; i<odleglosci.length; i++){
+          smallest = Math.min(...item.filter(Boolean));
+          indexsmallest4 = item.indexOf(smallest);
+        }
+        auto4 += needs[indexsmallest4];
+        if (auto4 > 1000){
+          auto4 -= needs[indexsmallest4];
+          idex++;
+        } else {
+          route4.push(indexsmallest4);
+          for (var a=0; a < odleglosci.length; a++){
+            odleglosci[a][indexsmallest4] = 100000;
+            
+          }
+          odleglosci[indexsmallest4][g-1] = 100000;
+        }
+      }
+      if (idex %5 == 4){
+        item=odleglosci[indexsmallest5];
+        for (var i=0; i<odleglosci.length; i++){
+          smallest = Math.min(...item.filter(Boolean));
+          indexsmallest5 = item.indexOf(smallest);
+        }
+        auto5 += needs[indexsmallest5];
+        if (auto5 > 1000){
+          auto5 -= needs[indexsmallest5];
+          idex++;
+        } else {
+          route5.push(indexsmallest5);
+          for (var a=0; a < odleglosci.length; a++){
+            odleglosci[a][indexsmallest5] = 100000;
+            
+          }
+          odleglosci[indexsmallest5][g-1] = 100000;
+        }
+      }
       console.log(indexsmallest)
       console.log(smallest);
-      odleglosci[g-1][indexsmallest] = 100000;
+      /*for (var a=0; a < odleglosci.length; a++){
+        odleglosci[a][indexsmallest] = 100000;
+        
+      }
       odleglosci[indexsmallest][g-1] = 100000;
+      odleglosci2.push(indexsmallest);*/
     })
-   
     console.log(odleglosci);
+    console.log(odleglosci3);
+
+    console.log(route1);
+    console.log(route2);
+    console.log(route3);
+    console.log(route4);
+    console.log(route5);
+
+    console.log(auto1);
+    console.log(auto2);
+    console.log(auto3);
+    console.log(auto4);
+    console.log(auto5);
     /*var route = new Array();
     var routeindex = new Array();
     odleglosci.forEach(function(item, i , odleglosci) {
