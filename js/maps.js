@@ -41,6 +41,38 @@ function initMap() {
     const zakopane = {lat: 49.2759821, lng: 19.9038356};
     const zamosc = {lat: 50.7214316, lng: 23.2134931};
 
+    var Krakow = 'Krakow';
+    var Bialystok = 'Bialystok';
+    var Bielskobiala = 'Bielskobiala';
+    var Chrzanow = 'Chrzanow';
+    var Gdansk = 'Gdansk';
+    var Gdynia = 'Gdynia';
+    var Gliwice = 'Gliwice';
+    var Gromnik = 'Gromnik';
+    var Katowice = 'Katowice';
+    var Kielce = 'Kielce';
+    var Krosno = 'Krosno';
+    var Krynica = 'Krynica';
+    var Lublin = 'Lublin';
+    var Lodz = 'Lodz';
+    var Malbork = 'Malbork';
+    var Nowytarg = 'Nowytarg';
+    var Olsztyn = 'Olsztyn';
+    var Poznan = 'Poznan';
+    var Pulawy = 'Pulawy';
+    var Radom = 'Radom';
+    var Rzeszow = 'Rzeszow';
+    var Sandomierz = 'Sandomierz';
+    var Szczecin = 'Szczecin';
+    var Szczucin = 'Szczucin';
+    var Szklarskaporeba = 'Szklarskaporeba';
+    var Tarnow = 'Tarnow';
+    var Warszawa = 'Warszawa';
+    var Wieliczka = 'Wieliczka';
+    var Wroclaw = 'Wroclaw';
+    var Zakopane = 'Zakopane';
+    var Zamosc = 'Zamosc';
+
     var mk1 = new google.maps.Marker({position: krakow, map: map});
     var mk2 = new google.maps.Marker({position: bialystok, map: map});
     var mk3 = new google.maps.Marker({position: bielskobiala, map: map});
@@ -102,9 +134,9 @@ function initMap() {
         }
         
     })
-
+    console.log("Tabela odleglosci miedzy miastami");
     console.log(odleglosci3);
-    console.log(odleglosci);
+   // console.log(odleglosci);
 
     var odleglosci2 = new Array();
     var smallest = '';
@@ -225,8 +257,8 @@ function initMap() {
           odleglosci[indexsmallest5][g-1] = 100000;
         }
       }
-      console.log(indexsmallest)
-      console.log(smallest);
+      //console.log(indexsmallest)
+      //console.log(smallest);
       /*for (var a=0; a < odleglosci.length; a++){
         odleglosci[a][indexsmallest] = 100000;
         
@@ -234,49 +266,398 @@ function initMap() {
       odleglosci[indexsmallest][g-1] = 100000;
       odleglosci2.push(indexsmallest);*/
     })
-    console.log(odleglosci);
-    console.log(odleglosci3);
 
+    console.log("Najlepsza trasa uzyskana metoda Algorytmu Najblizszego Sasiada.")
     console.log(route1);
     console.log(route2);
     console.log(route3);
     console.log(route4);
     console.log(route5);
+    console.log("Najlepsza dlugosc trasy uzyskana metoda Algorytmu Najblizszego Sasiada.")
 
-    console.log(auto1);
-    console.log(auto2);
-    console.log(auto3);
-    console.log(auto4);
-    console.log(auto5);
-    /*var route = new Array();
-    var routeindex = new Array();
-    odleglosci.forEach(function(item, i , odleglosci) {
-      for (var a=0; a<item.length; a++){
-        var smallest = Math.min(...item.filter(Boolean));
-        var indexsmallest = item.indexOf(smallest);
-        
+    route1.push(0);
+    route1.unshift(0);
+    route2.push(0);
+    route2.unshift(0);
+    route3.push(0);
+    route3.unshift(0);
+    route4.push(0);
+    route4.unshift(0);
+    route5.push(0);
+    route5.unshift(0);
+    var routeSum= 0;
+
+
+    function calculatePath(route) {
+      routeSum=0;
+      for(var i=0; i<route.length-1; i++){
+        routeSum+=odleglosci3[route[i]][route[i+1]];
+     //   console.log(odleglosci3[route[i]][route[i+1]]);
       }
-      console.log(indexsmallest)
-      routeindex.push(indexsmallest)
-      console.log(smallest);
-      route.push(smallest);
-    })
-    console.log(routeindex);
-    console.log(route);
-    console.log(odleglosci);*/
-    //console.log(j)
-    //console.log(miasta);
+    //  console.log(routeSum);
+      return routeSum;
+    }
 
 
-    var flightPath = new google.maps.Polyline({
-      path: ltlng,
-      geodesic: true,
-      strokeColor: '#4986E7',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
+
+    var tabuArrayRoutes=[];
+    var tabuArrayResults=[];
+    var allRoutes=calculatePath(route1)+calculatePath(route2)+calculatePath(route3)+calculatePath(route4)+calculatePath(route5);
+    console.log(allRoutes);
+    var a =0;
+    var b=0;
+    var oldRoutes=0;
+    var aweight=0;
+    var bweight=0;
+    var overweight=false;
+    var r1=JSON.parse(JSON.stringify(route1));
+    var r2=JSON.parse(JSON.stringify(route2));
+    var r3=JSON.parse(JSON.stringify(route3));
+    var r4=JSON.parse(JSON.stringify(route4));
+    var r5=JSON.parse(JSON.stringify(route5));
+    condition=true;
+    for(var xyz=0;xyz<10; xyz++){
+var tabu=0;
+allRoutes=calculatePath(route1)+calculatePath(route2)+calculatePath(route3)+calculatePath(route4)+calculatePath(route5);
+for(;tabu<100000; tabu++){
+  overweight=false;
+     a = Math.floor(Math.random() * 30)+1;
+     b = Math.floor(Math.random() * 30)+1;
+
+    while(a==b){
+      b = Math.floor(Math.random() * 30)+1;
+    }
+
+    var ida=0;
+    var idb=0;
+    var ra=0;
+    var rb=0;
+
+
+
+
+    if(route1.includes(a)){
+      ida=route1.indexOf(a);
+      ra=1;
+    }
+    if(route2.includes(a)){
+      ida=route2.indexOf(a);
+      ra=2;
+    }
+    if(route3.includes(a)){
+      ida=route3.indexOf(a);
+      ra=3;
+    }
+    if(route4.includes(a)){
+      ida=route4.indexOf(a);
+      ra=4;
+    }
+    if(route5.includes(a)){
+      ida=route5.indexOf(a);
+      ra=5;
+    }
+
+    if(route1.includes(b)){
+      idb=route1.indexOf(b);
+      rb=1;
+    }
+    if(route2.includes(b)){
+      idb=route2.indexOf(b);
+      rb=2;
+    }
+    if(route3.includes(b)){
+      idb=route3.indexOf(b);
+      rb=3;
+    }
+    if(route4.includes(b)){
+      idb=route4.indexOf(b);
+      rb=4;
+    }
+    if(route5.includes(b)){
+      idb=route5.indexOf(b);
+      rb =5;
+    }
+    aweight=needs[a];
+    bweight=needs[b];
+    if(ra==1){
+      if(auto1-aweight+bweight>1000){
+        overweight=true;
+      }
+    }
+    if(ra==2){
+      if(auto2-aweight+bweight>1000){
+        overweight=true;
+      }
+    }
+    if(ra==3){
+      if(auto3-aweight+bweight>1000){
+        overweight=true;
+      }
+    }
+    if(ra==4){
+      if(auto4-aweight+bweight>1000){
+        overweight=true;
+      }
+    }
+    if(ra==5){
+      if(auto5-aweight+bweight>1000){
+        overweight=true;
+      }
+    }
+    if(rb==1){
+      if(auto1+aweight-bweight>1000){
+        overweight=true;
+      }
+    }
+    if(rb==2){
+      if(auto2+aweight-bweight>1000){
+        overweight=true;
+      }
+    }
+    if(rb==3){
+      if(auto3+aweight-bweight>1000){
+        overweight=true;
+      }
+    }
+    if(rb==4){
+      if(auto4+aweight-bweight>1000){
+        overweight=true;
+      }
+    }
+    if(rb==5){
+      if(auto5+aweight-bweight>1000){
+        overweight=true;
+      }
+    }
+    if(overweight==false){
+    if(ra==1){
+      route1[ida]=b;
+    }
+    if(ra==2){
+      route2[ida]=b;
+    }
+    if(ra==3){
+      route3[ida]=b;
+    }
+    if(ra==4){
+      route4[ida]=b;
+    }
+    if(ra==5){
+      route5[ida]=b;
+    }
+    if(rb==1){
+      route1[idb]=a;
+    }
+    if(rb==2){
+      route2[idb]=a;
+    }
+    if(rb==3){
+      route3[idb]=a;
+    }
+    if(rb==4){
+      route4[idb]=a;
+    }
+    if(rb==5){
+      route5[idb]=a;
+    }
+  
+
+    oldRoutes=allRoutes;
+    allRoutes=calculatePath(route1)+calculatePath(route2)+calculatePath(route3)+calculatePath(route4)+calculatePath(route5);
+    if(allRoutes<oldRoutes){
+
+   // console.log(allRoutes);
+    }else{
+      allRoutes=oldRoutes;
+      if(ra==1){
+        route1[ida]=a;
+      }
+      if(ra==2){
+        route2[ida]=a;
+      }
+      if(ra==3){
+        route3[ida]=a;
+      }
+      if(ra==4){
+        route4[ida]=a;
+      }
+      if(ra==5){
+        route5[ida]=a;
+      }
+      if(rb==1){
+        route1[idb]=b;
+      }
+      if(rb==2){
+        route2[idb]=b;
+      }
+      if(rb==3){
+        route3[idb]=b;
+      }
+      if(rb==4){
+        route4[idb]=b;
+      }
+      if(rb==5){
+        route5[idb]=b;
+      }
+    }
+
+  }
+  }
+
+/*  console.log(route1);
+  console.log(route2);
+  console.log(route3);
+  console.log(route4);
+  console.log(route5);
+
+
+  console.log(auto1);
+  console.log(auto2);
+  console.log(auto3);
+  console.log(auto4);
+  console.log(auto5); */
+  if(!tabuArrayRoutes.includes([route1, route2, route3, route4, route5])){
+  tabuArrayRoutes.push([route1, route2, route3, route4, route5]);
+  tabuArrayResults.push(allRoutes);
+  }
+var bestResult= Math.min(...tabuArrayResults);
+
+
+  route1=JSON.parse(JSON.stringify(r1));
+  route2=JSON.parse(JSON.stringify(r2));
+  route3=JSON.parse(JSON.stringify(r3));
+  route4=JSON.parse(JSON.stringify(r4));
+  route5=JSON.parse(JSON.stringify(r5));
+
+
+
+
 }
+    
+var bestResultIndex= tabuArrayResults.indexOf(bestResult);
+var bestWay= tabuArrayRoutes[bestResultIndex];
+console.log("Najlepsza dlugosc trasy uzyskana w kilometrach po tabu search.")
+console.log(bestResult);
+console.log("Najlepszy zestaw tras.")
+console.log(bestWay);
 
 
+var miasta = [krakow, bialystok ,bielskobiala ,chrzanow   ,gdansk  ,gdynia  ,gliwice  ,gromnik  ,katowice  ,kielce  ,krosno  ,krynica  ,lublin  ,lodz  ,malbork  ,nowytarg   ,olsztyn  ,poznan  ,pulawy  ,radom  ,rzeszow  ,sandomierz  ,szczecin   ,szczucin   ,szklarskaporeba  ,tarnow  ,warszawa   ,wieliczka  ,wroclaw  ,zakopane  ,zamosc];
+
+var miasta2 = [Krakow, Bialystok ,Bielskobiala ,Chrzanow   ,Gdansk  ,Gdynia  ,Gliwice  ,Gromnik  ,Katowice  ,Kielce  ,Krosno  ,Krynica  ,Lublin  ,Lodz  ,Malbork  ,Nowytarg   ,Olsztyn  ,Poznan  ,Pulawy  ,Radom  ,Rzeszow  ,Sandomierz  ,Szczecin   ,Szczucin   ,Szklarskaporeba  ,Tarnow  ,Warszawa   ,Wieliczka  ,Wroclaw  ,Zakopane  ,Zamosc];
+
+var miasta3 = new Array();
+for (var a=0; a<route1.length; a++){
+  var map1 = [miasta[route1[a]], miasta[route1[a+1]]];
+
+  var flightPath1 = new google.maps.Polyline({
+    path: map1,
+    geodesic: true,
+    strokeColor: '#4986E7',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath1.setMap(map);
+
+  miasta3.push(miasta2[route1[a]])
+
+  console.log(miasta3);
+
+}
+  var string1 = JSON.stringify(miasta3);
+  document.getElementById("car1").innerHTML = string1;
 
 
+var miasta4 = new Array();
+for (var a=0; a<route2.length; a++){
+  var map2 = [miasta[route2[a]], miasta[route2[a+1]]];
+
+
+  var flightPath2 = new google.maps.Polyline({
+    path: map2,
+    geodesic: true,
+    strokeColor: '#eb3434',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath2.setMap(map);
+
+  miasta4.push(miasta2[route2[a]])
+
+  console.log(miasta4);
+}
+  var string2 = JSON.stringify(miasta4);
+  document.getElementById("car2").innerHTML = string2;
+
+
+var miasta5 = new Array();
+for (var a=0; a<route3.length; a++){
+  var map3 = [miasta[route3[a]], miasta[route3[a+1]]];
+
+
+  var flightPath3 = new google.maps.Polyline({
+    path: map3,
+    geodesic: true,
+    strokeColor: '#62eb34',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath3.setMap(map);
+
+  miasta5.push(miasta2[route3[a]])
+
+  console.log(miasta5);
+}
+  var string3 = JSON.stringify(miasta5);
+  document.getElementById("car3").innerHTML = string3;
+
+
+var miasta6 = new Array();
+for (var a=0; a<route4.length; a++){
+  var map4 = [miasta[route4[a]], miasta[route4[a+1]]];
+
+
+  var flightPath4 = new google.maps.Polyline({
+    path: map4,
+    geodesic: true,
+    strokeColor: '#8c34eb',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath4.setMap(map);
+
+  miasta6.push(miasta2[route4[a]])
+
+  console.log(miasta6);
+}
+  var string4 = JSON.stringify(miasta6);
+  document.getElementById("car4").innerHTML = string4;
+
+
+var miasta7 = new Array();
+for (var a=0; a<route5.length; a++){
+  var map5 = [miasta[route5[a]], miasta[route5[a+1]]];
+
+
+  var flightPath5 = new google.maps.Polyline({
+    path: map5,
+    geodesic: true,
+    strokeColor: '#34e2eb',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  flightPath5.setMap(map);
+
+  miasta7.push(miasta2[route5[a]])
+
+  console.log(miasta7);
+}
+  var string5 = JSON.stringify(miasta7);
+  document.getElementById("car5").innerHTML = string5;
+
+}
