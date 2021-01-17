@@ -564,7 +564,6 @@ for (var a=0; a<route1.length; a++){
 
   miasta3.push(miasta2[route1[a]])
 
-  console.log(miasta3);
 
 }
   var string1 = JSON.stringify(miasta3);
@@ -588,7 +587,6 @@ for (var a=0; a<route2.length; a++){
 
   miasta4.push(miasta2[route2[a]])
 
-  console.log(miasta4);
 }
   var string2 = JSON.stringify(miasta4);
   document.getElementById("car2").innerHTML = string2;
@@ -611,7 +609,6 @@ for (var a=0; a<route3.length; a++){
 
   miasta5.push(miasta2[route3[a]])
 
-  console.log(miasta5);
 }
   var string3 = JSON.stringify(miasta5);
   document.getElementById("car3").innerHTML = string3;
@@ -634,7 +631,7 @@ for (var a=0; a<route4.length; a++){
 
   miasta6.push(miasta2[route4[a]])
 
-  console.log(miasta6);
+
 }
   var string4 = JSON.stringify(miasta6);
   document.getElementById("car4").innerHTML = string4;
@@ -657,7 +654,7 @@ for (var a=0; a<route5.length; a++){
 
   miasta7.push(miasta2[route5[a]])
 
-  console.log(miasta7);
+
 }
   var string5 = JSON.stringify(miasta7);
   document.getElementById("car5").innerHTML = string5;
