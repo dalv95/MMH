@@ -1,5 +1,7 @@
 // Initialize and add the map
 function initMap() {
+  $(document).ready(function () {
+    $("#start").click(function () {
 
   var ltlng = [];
   var path = new google.maps.MVCArray();
@@ -660,4 +662,6 @@ for (var a=0; a<route5.length; a++){
   var string5 = JSON.stringify(miasta7);
   document.getElementById("car5").innerHTML = string5;
 
+});
+});
 }

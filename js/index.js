@@ -46,11 +46,5 @@ $(document).ready(function () {
 
 
 
-        document.getElementById("car1").innerHTML = result;
-        document.getElementById("car2").innerHTML = result;
-        document.getElementById("car3").innerHTML = result;
-        document.getElementById("car4").innerHTML = result;
-        document.getElementById("car5").innerHTML = result;
-
     });
 });
